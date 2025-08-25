@@ -1,0 +1,34 @@
+{
+    "name": "Player",
+    "maps": [
+        {
+            "name": "Normal",
+            "id": "1bb61888-3b09-40a0-bcbd-d8e91978b167",
+            "actions": [
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "11965d2a-f04a-47b7-b913-3b286f972656",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "49ce4d3e-42ce-4e12-b44d-42bdcd298c37",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
