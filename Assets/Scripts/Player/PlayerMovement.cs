@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
 
     Camera Cam;
     CharacterController Controller;
+    public Animator Anim;
+    const string IsMoving = "IsMoving";
 
     private void Awake()
     {
@@ -36,6 +38,12 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         Dashes_Cur = Dashes_Max;
+    }
+
+    void AnimationControl()
+    {
+        if (MoveDir != Vector3.zero) { Anim.SetBool(IsMoving, true); }
+        else { Anim.SetBool(IsMoving, false); }
     }
 
     void DashUpdate()
@@ -88,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Movement();
         DashUpdate();
+        AnimationControl();
 
         if (IsDashing) { Controller.Move(Dash_Speed * MoveDir * Time.fixedDeltaTime); }
         else { Controller.Move(Speed * MoveDir * Time.fixedDeltaTime); }
