@@ -452,10 +452,10 @@ MonoBehaviour:
   Speed: 1
   Dashes_Max: 3
   Dash_Speed: 8
-  Dash_Cooldown: 0.5
+  Dash_Cooldown: 2
   Dash_Dur: 0.3
   Dash_Between_cool: 0.2
-  Dashes_Cur: 0
+  Dashes_Cur: 1
   MoveDir: {x: 0, y: 0, z: 0}
 --- !u!114 &1105315066
 MonoBehaviour:
