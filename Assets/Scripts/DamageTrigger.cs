@@ -33,7 +33,14 @@ public class DamageTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!Tags_include.Contains(other.gameObject.tag) || Tags_exclude.Contains(other.gameObject.tag)) return;
+        if (!Tags_include.Contains(other.gameObject.tag) || Tags_exclude.Contains(other.gameObject.tag) || GetHp(other.gameObject) != null) return;
+
+        Health hp;
+        if (other.gameObject.TryGetComponent<Health>(out hp))
+        {
+            Hp_Gobj hg = new Hp_Gobj(hp, other.gameObject);
+            CurTargets.Add(hg);
+        }
     }
     private void OnTriggerExit(Collider other)
     {
