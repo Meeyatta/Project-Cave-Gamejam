@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
     public float Dash_Cooldown;
     public float Dash_Dur;
 
+    [Header("-")]
+    public float Dash_Between_cool;
+    float Dash_Between_end;
+
     [Header("----")]
     public int Dashes_Cur;
     bool IsDashing;
@@ -50,14 +54,15 @@ public class PlayerMovement : MonoBehaviour
 
     bool DashCheck()
     {
-        if (Dashes_Cur > 0)
-        {
-            Dashes_Cur = Mathf.Clamp(Dashes_Cur - 1, 0, Dashes_Max);
-            Dash_End = Time.time + Dash_Dur;
-            return true;
-        }
+        if (Time.time <= Dash_Between_end) return false;
+        Dash_Between_end = Time.time + Dash_Between_cool + Dash_Dur;
 
-        return false;
+        if (Dashes_Cur <= 0) return false; 
+
+        Dashes_Cur = Mathf.Clamp(Dashes_Cur - 1, 0, Dashes_Max);
+        Dash_End = Time.time + Dash_Dur;
+        return true;
+
     }
 
     public void Dash(InputAction.CallbackContext context)
