@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     CharacterController Controller;
     public Animator Anim;
     const string IsMoving = "IsMoving";
+    const string right = "right";
+    const string left = "left";
+    const string back = "back";
 
     private void Awake()
     {
@@ -42,8 +45,38 @@ public class PlayerMovement : MonoBehaviour
 
     void AnimationControl()
     {
-        if (MoveDir != Vector3.zero) { Anim.SetBool(IsMoving, true); }
-        else { Anim.SetBool(IsMoving, false); }
+        Vector3 localMove = transform.InverseTransformDirection(MoveDir);
+
+        if (localMove != Vector3.zero)
+        {
+            Anim.SetBool(IsMoving, true);
+
+            if (localMove.z > 0) { Anim.SetBool(back, false); }
+            else if (localMove.z < 0) { Anim.SetBool(back, true); }
+
+            if (localMove.x > 0 && Mathf.Abs(localMove.x) > Mathf.Abs(localMove.z))
+            {
+                Anim.SetBool(right, true);
+                Anim.SetBool(left, false);
+            }
+            else if (localMove.x < 0 && Mathf.Abs(localMove.x) > Mathf.Abs(localMove.z))
+            {
+                Anim.SetBool(left, true);
+                Anim.SetBool(right, false);
+            }
+            else
+            {
+                Anim.SetBool(left, false);
+                Anim.SetBool(right, false);
+            }
+        }
+        else
+        {
+            Anim.SetBool(IsMoving, false);
+            Anim.SetBool(left, false);
+            Anim.SetBool(right, false);
+            Anim.SetBool(back, false);
+        }
     }
 
     void DashUpdate()
