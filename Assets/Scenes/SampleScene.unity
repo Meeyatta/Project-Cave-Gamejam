@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -698,6 +698,7 @@ GameObject:
   - component: {fileID: 786003286}
   - component: {fileID: 786003285}
   - component: {fileID: 786003291}
+  - component: {fileID: 786003292}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -721,6 +722,7 @@ MonoBehaviour:
   Cur_Health: 0
   IsInvul: 0
   PostDmgInvulDur: 0
+  isDead: 0
 --- !u!54 &786003286
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -863,6 +865,21 @@ MonoBehaviour:
   attackRange: 2.5
   attackDamage: 25
   attackDelay: 1.8
+--- !u!114 &786003292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786003284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ecd2981d8c04bb49b0193ce29122548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropTable:
+  - itemPrefab: {fileID: 5677535600918577797, guid: 41eae1d4ac0090e418ddfce66ff690fc, type: 3}
+    dropChance: 0.8
 --- !u!1 &893063343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,6 +1314,7 @@ MonoBehaviour:
   Cur_Health: 0
   IsInvul: 0
   PostDmgInvulDur: 0.1
+  isDead: 0
 --- !u!114 &1105315073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1502,6 +1520,7 @@ MonoBehaviour:
   Cur_Health: 0
   IsInvul: 0
   PostDmgInvulDur: 0.06
+  isDead: 0
 --- !u!54 &1238555911
 Rigidbody:
   m_ObjectHideFlags: 0

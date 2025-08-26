@@ -11,10 +11,12 @@ public class Health : MonoBehaviour
     public float PostDmgInvulDur;
     float PostDmgInvulEnd;
 
+    public bool isDead = false;
+
     public virtual void Take_Dmg(float dmg)
     {
-        if (IsInvul) return;
-
+        if (IsInvul || isDead) return;
+        
         Cur_Health = Mathf.Clamp(Cur_Health - dmg, 0, Max_Health);
         MakeInv(PostDmgInvulDur);
 
@@ -23,6 +25,8 @@ public class Health : MonoBehaviour
 
     public virtual void Take_Heal(float hp)
     {
+        if (isDead) return;
+
         Cur_Health = Mathf.Clamp(Cur_Health + hp, 0, Max_Health);
 
         if (Cur_Health <= 0) { Death(); }
@@ -35,12 +39,16 @@ public class Health : MonoBehaviour
 
     public virtual void Death()
     {
+        if (isDead) return;
+        isDead = true;
+
         Debug.Log(gameObject.name + " died");
     }
 
     public virtual void InfoStart()
     {
         Cur_Health = Max_Health;
+        isDead = false;
     }
 
     public virtual void InfoUpdate()
