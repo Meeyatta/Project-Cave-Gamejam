@@ -75,9 +75,6 @@ public class SoundManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("p"))
-        {
-            PlaySound(Sound.Test, 1, transform);
-        }
+        
     }
 }
