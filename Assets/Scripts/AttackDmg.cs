@@ -4,26 +4,36 @@ using UnityEngine;
 
 public class AttackDmg : MonoBehaviour
 {
+    public List<Health> damaged = new List<Health>();
     PlayerAttack pa;
-
+    public Animator Anim;
+    const string AttackLayer = "AttackLayer";
+    int ind;
     private void Start()
     {
         pa = transform.parent.GetComponent<PlayerAttack>();
+        ind = Anim.GetLayerIndex(AttackLayer);
     }
 
-    public void GatherTargets()
+    //Basically when we attack, the script will check what we CAN attack multiple times
+    public void Attack_beforehands()
     {
-        //Stopped working here
-    }
-
-
-
-    public void Attack()
-    {
+        Debug.Log(Anim.GetLayerWeight(ind));
+        Anim.SetLayerWeight(ind, 1);
         foreach (var v in pa.Trigger.CurTargets)
         {
-            v.Hp.Take_Dmg(pa.Damage);
+            if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); damaged.Add(v.Hp); }
         }
-        pa.Attack_Next = Time.time + pa.Attack_Cooldown;
+    }
+
+    public void Attack_last()
+    {
+        Debug.Log(Anim.GetLayerWeight(ind));
+        foreach (var v in pa.Trigger.CurTargets)
+        {
+            if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); damaged.Add(v.Hp); }
+        }
+        damaged.Clear();
+        Anim.SetLayerWeight(ind, 0);
     }
 }

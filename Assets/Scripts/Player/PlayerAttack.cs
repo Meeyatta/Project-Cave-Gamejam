@@ -13,9 +13,10 @@ public class PlayerAttack : MonoBehaviour
     public DamageTrigger Trigger;
     public Animator Anim;
 
-    const string AttackLayer = "Attack Layer";
     const string attack1 = "attack1";
     const string attack2 = "attack2";
+    const string AttackLayer = "AttackLayer";
+    int ind;
 
     public void iAttack(InputAction.CallbackContext context)
     {
@@ -27,26 +28,18 @@ public class PlayerAttack : MonoBehaviour
 
     void Attack()
     {
-        if (Trigger.CurTargets == null || Trigger.CurTargets.Count <= 0) return;
+        //if (Trigger.CurTargets == null || Trigger.CurTargets.Count <= 0) return;
         if (Time.time < Attack_Next) return;
 
-        int ind = Anim.GetLayerIndex(AttackLayer);
         Anim.SetLayerWeight(ind, 1);
-
         if (Attacked1) { Anim.SetTrigger(attack1); } else { Anim.SetTrigger(attack2); }
         Attacked1 = !Attacked1;
-        
-
-        foreach (var v in Trigger.CurTargets)
-        {
-            v.Hp.Take_Dmg(Damage);
-        }
         Attack_Next = Time.time + Attack_Cooldown;
     }
 
     void Start()
     {
-        
+        ind = Anim.GetLayerIndex(AttackLayer);
     }
 
     void Update()
