@@ -7,9 +7,15 @@ public class PlayerAttack : MonoBehaviour
 {
     public float Damage;
     public float Attack_Cooldown;
-    float Attack_Next;
+    public float Attack_Next;
     [Header("---")]
+    bool Attacked1 = false;
     public DamageTrigger Trigger;
+    public Animator Anim;
+
+    const string AttackLayer = "Attack Layer";
+    const string attack1 = "attack1";
+    const string attack2 = "attack2";
 
     public void iAttack(InputAction.CallbackContext context)
     {
@@ -23,6 +29,13 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Trigger.CurTargets == null || Trigger.CurTargets.Count <= 0) return;
         if (Time.time < Attack_Next) return;
+
+        int ind = Anim.GetLayerIndex(AttackLayer);
+        Anim.SetLayerWeight(ind, 1);
+
+        if (Attacked1) { Anim.SetTrigger(attack1); } else { Anim.SetTrigger(attack2); }
+        Attacked1 = !Attacked1;
+        
 
         foreach (var v in Trigger.CurTargets)
         {
