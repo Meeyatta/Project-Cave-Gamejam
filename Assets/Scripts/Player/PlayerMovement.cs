@@ -131,8 +131,8 @@ public class PlayerMovement : MonoBehaviour
         DashUpdate();
         AnimationControl();
 
-        if (IsDashing) { Controller.Move(Dash_Speed * MoveDir * Time.fixedDeltaTime); }
-        else { Controller.Move(Speed * MoveDir * Time.fixedDeltaTime); }
+        if (IsDashing) { Controller.Move(Dash_Speed * MoveDir * Time.deltaTime); }
+        else { Controller.Move(Speed * MoveDir * Time.deltaTime); }
         
     }
 }
