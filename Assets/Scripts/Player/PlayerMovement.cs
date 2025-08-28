@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,17 +14,18 @@ public class PlayerMovement : MonoBehaviour
     public float Dash_Dur;
 
     [Header("-")]
-    public float Dash_Between_cool;
+    public float Dash_Gain;
     float Dash_Between_end;
 
     [Header("----")]
-    public int Dashes_Cur;
+    public float Dashes_Cur;
     bool IsDashing;
     float Dash_CooldownEnd;
     float Dash_End;
 
     public Vector3 MoveDir;
 
+    public Slider StaminaSlider;
     Camera Cam;
     CharacterController Controller;
     public Animator Anim;
@@ -79,26 +81,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void DashUpdate()
+    IEnumerator DashUpdate()
     {
-        if (Time.time > Dash_End) { IsDashing = false; }
-        else { IsDashing = true; }
-
-        if (Dashes_Cur >= Dashes_Max) return;
-
-        if (Time.time >= Dash_CooldownEnd)
+        while (true)
         {
-            Dashes_Cur = Mathf.Clamp(Dashes_Cur + 1, 0, Dashes_Max);
-            Dash_CooldownEnd = Time.time + Dash_Cooldown;
-        }
+            if (Time.time > Dash_End) { IsDashing = false; }
+            else { IsDashing = true; }
+
+            Dashes_Cur = Mathf.Clamp(Dashes_Cur + Dash_Gain, 0, Dashes_Max);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }  
     }
 
     bool DashCheck()
     {
         if (Time.time <= Dash_Between_end) return false;
-        Dash_Between_end = Time.time + Dash_Between_cool + Dash_Dur;
 
-        if (Dashes_Cur <= 0) return false; 
+        if (Dashes_Cur < 1) return false; 
 
         Dashes_Cur = Mathf.Clamp(Dashes_Cur - 1, 0, Dashes_Max);
         Dash_End = Time.time + Dash_Dur;
@@ -130,6 +129,8 @@ public class PlayerMovement : MonoBehaviour
         Movement();
         DashUpdate();
         AnimationControl();
+
+        StaminaSlider.value = Dashes_Cur / Dashes_Max;
 
         if (IsDashing) { Controller.Move(Dash_Speed * MoveDir * Time.deltaTime); }
         else { Controller.Move(Speed * MoveDir * Time.deltaTime); }
