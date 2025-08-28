@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- List of buffs:
-    +x% health, but +x% passive torch drain
+ List of active items:
+    1 Oil - +x% to current torch power
+    2 Mushroom - heals x health
     
  */
 
-public class BuffsManager : MonoBehaviour
+public class ItemManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int CurItemInd;
+
     void Start()
     {
         
@@ -21,4 +23,10 @@ public class BuffsManager : MonoBehaviour
     {
         
     }
+
+    public void PickUp(int ind)
+    {
+
+    }
+
 }

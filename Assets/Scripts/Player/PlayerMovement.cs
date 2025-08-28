@@ -10,17 +10,16 @@ public class PlayerMovement : MonoBehaviour
 
     public int Dashes_Max;
     public float Dash_Speed;
-    public float Dash_Cooldown;
     public float Dash_Dur;
 
     [Header("-")]
     public float Dash_Gain;
-    float Dash_Between_end;
+    public float Dash_Cooldown;
+    float Dash_Next;
 
     [Header("----")]
     public float Dashes_Cur;
-    bool IsDashing;
-    float Dash_CooldownEnd;
+    public bool IsDashing;
     float Dash_End;
 
     public Vector3 MoveDir;
@@ -88,19 +87,18 @@ public class PlayerMovement : MonoBehaviour
             if (Time.time > Dash_End) { IsDashing = false; }
             else { IsDashing = true; }
 
-            Dashes_Cur = Mathf.Clamp(Dashes_Cur + Dash_Gain, 0, Dashes_Max);
+            Dashes_Cur = Mathf.Clamp(Dashes_Cur + Dash_Gain / 1000, 0, Dashes_Max);
             yield return new WaitForSeconds(Time.deltaTime);
         }  
     }
 
     bool DashCheck()
     {
-        if (Time.time <= Dash_Between_end) return false;
-
-        if (Dashes_Cur < 1) return false; 
+        if (Dashes_Cur < 1 || Time.time < Dash_Next) return false; 
 
         Dashes_Cur = Mathf.Clamp(Dashes_Cur - 1, 0, Dashes_Max);
         Dash_End = Time.time + Dash_Dur;
+        Dash_Next = Time.time + Dash_Cooldown;
         return true;
 
     }
@@ -127,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Movement();
-        DashUpdate();
+        StartCoroutine(DashUpdate());
         AnimationControl();
 
         StaminaSlider.value = Dashes_Cur / Dashes_Max;
