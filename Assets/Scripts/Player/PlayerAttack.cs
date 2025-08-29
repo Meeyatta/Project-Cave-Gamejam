@@ -5,24 +5,32 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public float Damage;
+    public float Base_Damage;
     public float Attack_Cooldown;
     public float Attack_Next;
     [Header("---")]
+    public float Damage;
     bool Attacked1 = false;
     public DamageTrigger Trigger;
     public Animator Anim;
+    PlayerMovement pm;
+    BuffsManager bm;
 
     const string attack1 = "attack1";
     const string attack2 = "attack2";
     const string AttackLayer = "AttackLayer";
     int ind;
 
+    public bool CanAttack() 
+    {
+        return !pm.IsDashing;
+    }
+
     public void iAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            Attack();
+            if (CanAttack()) Attack();
         }
     }
 
@@ -36,10 +44,22 @@ public class PlayerAttack : MonoBehaviour
         Attacked1 = !Attacked1;
         Attack_Next = Time.time + Attack_Cooldown;
     }
+    public void BuffUpdates()
+    {
+        //6 f +x damage dealt, -x maximum health
+        Damage = Base_Damage + bm.f_damage * bm.GetBuffAmount(6);
+    }
 
     void Start()
     {
         ind = Anim.GetLayerIndex(AttackLayer);
+        pm = GetComponent<PlayerMovement>();
+        bm = GetComponent<BuffsManager>();
+    }
+
+    private void FixedUpdate()
+    {
+        BuffUpdates();
     }
 
     void Update()

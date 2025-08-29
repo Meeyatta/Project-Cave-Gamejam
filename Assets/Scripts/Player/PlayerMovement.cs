@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float Speed;
+    public float Base_Speed;
 
     public int Dashes_Max;
-    public float Dash_Speed;
+    public float Base_Dash_Speed;
     public float Dash_Dur;
 
     [Header("-")]
@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     float Dash_Next;
 
     [Header("----")]
+    public float Dash_Speed;
+    public float Speed;
+
     public float Dashes_Cur;
     public bool IsDashing;
     float Dash_End;
@@ -25,9 +28,11 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 MoveDir;
 
     public Slider StaminaSlider;
+    PlayerHealth ph;
     Camera Cam;
     CharacterController Controller;
     public Animator Anim;
+    BuffsManager bm;
     const string IsMoving = "IsMoving";
     const string right = "right";
     const string left = "left";
@@ -36,12 +41,20 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         Controller = GetComponent<CharacterController>();
+        ph = GetComponent<PlayerHealth>();
         Cam = Camera.main;
+        bm = GetComponent<BuffsManager>();
     }
 
     void Start()
     {
         Dashes_Cur = Dashes_Max;
+    }
+    public void BuffUpdates()
+    {
+        //3 c +x movement speed, -y max health      
+        Speed = Base_Speed + bm.c_speed * bm.GetBuffAmount(3);
+        Dash_Speed = Base_Dash_Speed + bm.c_speed * bm.GetBuffAmount(3);
     }
 
     void AnimationControl()
@@ -107,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (DashCheck() && context.performed)
         {
+            ph.MakeInv(Dash_Dur);
             IsDashing = true;
         }
     }
@@ -121,7 +135,10 @@ public class PlayerMovement : MonoBehaviour
         MoveDir = camForw * yi + camRight * xi;
 
     }
-
+    private void FixedUpdate()
+    {
+        BuffUpdates();
+    }
     void Update()
     {
         Movement();

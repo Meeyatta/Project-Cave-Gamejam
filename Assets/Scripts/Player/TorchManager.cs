@@ -6,23 +6,32 @@ public class TorchManager : MonoBehaviour
 {
     public float Max_Power;
     public float Min_Power;
-    public float Drain_Amount;
+    public float Base_Drain;
     public float Drain_Cooldown;
 
     public List<ParticleSystem> Effects_On;
     public List<GameObject> Effects_Off;
 
     [Header("---")]
+    public float Drain_Amount;
     public Light Torch_Light;
     public float Cur_Power;
 
     const float MaxAngle = 90;
 
+    BuffsManager bm;
     void Start()
     {
         Cur_Power = Max_Power;
 
+        bm = GetComponent<BuffsManager>();
         StartCoroutine(PassiveDrain());
+    }
+
+    public void BuffUpdates()
+    {
+        //1 a +x health, but +y passive torch drain
+        Drain_Amount = Base_Drain + bm.a_drain * bm.GetBuffAmount(1);
     }
 
     public IEnumerator Power_Drain(float p, float t)
@@ -71,8 +80,10 @@ public class TorchManager : MonoBehaviour
         }
 
     }
-
-    // Update is called once per frame
+    private void FixedUpdate()
+    {
+        BuffUpdates();
+    }
     void Update()
     {
         if (Cur_Power <= Min_Power + Drain_Amount) { Power_Zero(); }

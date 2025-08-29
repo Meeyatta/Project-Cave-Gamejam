@@ -18,7 +18,6 @@ public class AttackDmg : MonoBehaviour
     //Basically when we attack, the script will check what we CAN attack multiple times
     public void Attack_beforehands()
     {
-        Debug.Log(Anim.GetLayerWeight(ind));
         Anim.SetLayerWeight(ind, 1);
         foreach (var v in pa.Trigger.CurTargets)
         {
@@ -28,7 +27,6 @@ public class AttackDmg : MonoBehaviour
 
     public void Attack_last()
     {
-        Debug.Log(Anim.GetLayerWeight(ind));
         foreach (var v in pa.Trigger.CurTargets)
         {
             if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); damaged.Add(v.Hp); }
