@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     public DamageTrigger Trigger;
     public Animator Anim;
     PlayerMovement pm;
+    PlayerHealth hp;
     BuffsManager bm;
 
     const string attack1 = "attack1";
@@ -39,6 +40,9 @@ public class PlayerAttack : MonoBehaviour
         //if (Trigger.CurTargets == null || Trigger.CurTargets.Count <= 0) return;
         if (Time.time < Attack_Next) return;
 
+        //4 d landing attacks heals, attacks deal self damage
+        if (bm.GetBuffAmount(4) > 0) { hp.Take_Dmg(bm.d_damage); }
+
         Anim.SetLayerWeight(ind, 1);
         if (Attacked1) { Anim.SetTrigger(attack1); } else { Anim.SetTrigger(attack2); }
         Attacked1 = !Attacked1;
@@ -46,8 +50,10 @@ public class PlayerAttack : MonoBehaviour
     }
     public void BuffUpdates()
     {
-        //6 f +x damage dealt, -x maximum health
-        Damage = Base_Damage + bm.f_damage * bm.GetBuffAmount(6);
+                            //6 f +x damage dealt, -x maximum health //5 e +x damage dealt, -x maximum torch power
+        Damage = Base_Damage + bm.f_damage * bm.GetBuffAmount(6)     + bm.e_damage * bm.GetBuffAmount(5);
+
+        //5 e +x damage dealt, -x maximum torch power
     }
 
     void Start()
@@ -55,6 +61,7 @@ public class PlayerAttack : MonoBehaviour
         ind = Anim.GetLayerIndex(AttackLayer);
         pm = GetComponent<PlayerMovement>();
         bm = GetComponent<BuffsManager>();
+        hp = GetComponent<PlayerHealth>();
     }
 
     private void FixedUpdate()

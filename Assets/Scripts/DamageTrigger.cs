@@ -9,6 +9,8 @@ public class DamageTrigger : MonoBehaviour
 
     public List<Hp_Gobj> CurTargets = new List<Hp_Gobj>();
 
+    PlayerHealth hp;
+    BuffsManager bm;
     [System.Serializable]
     public class Hp_Gobj
     {
@@ -19,6 +21,12 @@ public class DamageTrigger : MonoBehaviour
         {
             Hp = h; Object = g;   
         }
+    }
+
+    private void Awake()
+    {
+        hp = FindObjectOfType<PlayerHealth>();
+        bm = FindObjectOfType<BuffsManager>();
     }
 
     Hp_Gobj GetHp(GameObject o)

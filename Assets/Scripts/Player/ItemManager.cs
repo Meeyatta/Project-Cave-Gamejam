@@ -26,7 +26,7 @@ public class ItemManager : MonoBehaviour
 
     public void PickUp(int ind)
     {
-
+        CurItemInd = ind;
     }
 
 }

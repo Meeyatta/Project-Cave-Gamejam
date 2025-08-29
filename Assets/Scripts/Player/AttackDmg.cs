@@ -7,10 +7,15 @@ public class AttackDmg : MonoBehaviour
     public List<Health> damaged = new List<Health>();
     PlayerAttack pa;
     public Animator Anim;
+    PlayerHealth hp;
+    BuffsManager bm;
+
     const string AttackLayer = "AttackLayer";
     int ind;
     private void Start()
     {
+        if (hp == null) hp = FindObjectOfType<PlayerHealth>();
+        if (bm == null) bm = FindObjectOfType<BuffsManager>();
         pa = transform.parent.GetComponent<PlayerAttack>();
         ind = Anim.GetLayerIndex(AttackLayer);
     }
@@ -31,6 +36,10 @@ public class AttackDmg : MonoBehaviour
         {
             if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); damaged.Add(v.Hp); }
         }
+
+        //4 d landing attacks heals, attacks deal self damage
+        if (bm.GetBuffAmount(4) > 0 && damaged.Count > 0) { hp.Take_Heal(bm.d_heal); }
+
         damaged.Clear();
         Anim.SetLayerWeight(ind, 0);
     }

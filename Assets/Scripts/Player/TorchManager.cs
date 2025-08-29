@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TorchManager : MonoBehaviour
 {
-    public float Max_Power;
+    public float Max_Power_Base;
     public float Min_Power;
     public float Base_Drain;
     public float Drain_Cooldown;
@@ -13,6 +13,7 @@ public class TorchManager : MonoBehaviour
     public List<GameObject> Effects_Off;
 
     [Header("---")]
+    public float Max_Power;
     public float Drain_Amount;
     public Light Torch_Light;
     public float Cur_Power;
@@ -32,6 +33,9 @@ public class TorchManager : MonoBehaviour
     {
         //1 a +x health, but +y passive torch drain
         Drain_Amount = Base_Drain + bm.a_drain * bm.GetBuffAmount(1);
+
+        //                     5 e +x damage dealt, -x maximum torch power
+        Max_Power = Max_Power_Base + bm.e_power * bm.GetBuffAmount(5);
     }
 
     public IEnumerator Power_Drain(float p, float t)
