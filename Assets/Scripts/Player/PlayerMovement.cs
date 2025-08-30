@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector3 MoveDir;
 
+    [Header("Gravity")]
+    public float Gravity = 9.81f;
+
     public Slider StaminaSlider;
     PlayerHealth ph;
     Camera Cam;
@@ -102,12 +105,12 @@ public class PlayerMovement : MonoBehaviour
 
             Dashes_Cur = Mathf.Clamp(Dashes_Cur + Dash_Gain / 1000, 0, Dashes_Max);
             yield return new WaitForSeconds(Time.deltaTime);
-        }  
+        }
     }
 
     bool DashCheck()
     {
-        if (Dashes_Cur < 1 || Time.time < Dash_Next) return false; 
+        if (Dashes_Cur < 1 || Time.time < Dash_Next) return false;
 
         Dashes_Cur = Mathf.Clamp(Dashes_Cur - 1, 0, Dashes_Max);
         Dash_End = Time.time + Dash_Dur;
@@ -149,8 +152,17 @@ public class PlayerMovement : MonoBehaviour
 
         StaminaSlider.value = Dashes_Cur / Dashes_Max;
 
-        if (IsDashing) { Controller.Move(Dash_Speed * MoveDir * Time.deltaTime); }
-        else { Controller.Move(Speed * MoveDir * Time.deltaTime); }
-        
+        // Apply gravity to movement
+        Vector3 gravityVector = Vector3.down * Gravity * Time.deltaTime;
+
+        if (IsDashing)
+        {
+            Controller.Move((Dash_Speed * MoveDir * Time.deltaTime) + gravityVector);
+        }
+        else
+        {
+            Controller.Move((Speed * MoveDir * Time.deltaTime) + gravityVector);
+        }
+
     }
 }
