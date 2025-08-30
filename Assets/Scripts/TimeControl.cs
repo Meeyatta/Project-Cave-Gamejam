@@ -59,14 +59,17 @@ public class TimeControl : MonoBehaviour
 
     void Morning()
     {
+        if (IsNight) MusicManager.Instance.Play(1);
         IsMorning = true; IsEvening = false; IsNight = false;
     }
     void Evening()
     {
+        if (IsMorning) MusicManager.Instance.Play(2);
         IsMorning = false; IsEvening = true; IsNight = false;
     }
     void Night()
     {
+        if (IsEvening) MusicManager.Instance.Play(3);
         IsMorning = false; IsEvening = false; IsNight = true;
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Sound { Test, }
+public enum Sound { Test, Hurt }
 
 [System.Serializable]
 public class SoundEffect

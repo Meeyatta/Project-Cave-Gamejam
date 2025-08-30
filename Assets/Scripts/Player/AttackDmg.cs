@@ -27,6 +27,8 @@ public class AttackDmg : MonoBehaviour
         foreach (var v in pa.Trigger.CurTargets)
         {
             if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); damaged.Add(v.Hp); }
+
+            SoundManager.Instance.PlaySound(Sound.Hurt, 0.5f, v.Hp.transform);
         }
     }
 
