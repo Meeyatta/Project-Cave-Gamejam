@@ -95,9 +95,9 @@ public class TorchManager : MonoBehaviour
         //90 degrees - full power, 0 degrees - fully drained
         Torch_Light.spotAngle = Cur_Power / Max_Power * MaxAngle;
 
-        if (Input.GetKeyDown("p"))
-        {
-            StartCoroutine(Power_Add(25, 1f));
-        }
+        //if (Input.GetKeyDown("p"))
+        //{
+        //    StartCoroutine(Power_Add(25, 1f));
+        //}
     }
 }
