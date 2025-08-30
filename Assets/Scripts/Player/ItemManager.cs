@@ -36,7 +36,9 @@ public class ItemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (CurItemInd == 1) { OilPng.SetActive(true); MushroomPng.SetActive(false); }
+        else if (CurItemInd == 2) { OilPng.SetActive(false); MushroomPng.SetActive(true); }
+        else { OilPng.SetActive(false); MushroomPng.SetActive(false); }
     }
 
     public void Use(InputAction.CallbackContext context)
@@ -45,7 +47,7 @@ public class ItemManager : MonoBehaviour
         {
             if (CurItemInd == 0) return;
 
-            if (CurItemInd == 1) 
+            if (CurItemInd == 2) 
             {
                 hp.Take_Heal(Heal);
             }
@@ -63,8 +65,7 @@ public class ItemManager : MonoBehaviour
     public void PickUp(int ind)
     {
         CurItemInd = ind;
-        if (CurItemInd == 1) { OilPng.SetActive(true); MushroomPng.SetActive(false); }
-        else { OilPng.SetActive(false); MushroomPng.SetActive(true); }
+
     }
 
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 /*
  List of buffs:
@@ -16,6 +18,7 @@ public class Buff
 {
     public int Index;
     public int Amount;
+
 
     public Buff(int i, int a)
     {
@@ -41,6 +44,9 @@ public class BuffsManager : MonoBehaviour
     public float f_damage; public float f_health; 
 
     public List<Buff> CurBuffs = new List<Buff>();
+    public Animator Anim;
+    const string appear = "appear";
+    public TextMeshProUGUI Text_;
 
     public int GetBuffAmount(int ind)
     {
@@ -55,6 +61,28 @@ public class BuffsManager : MonoBehaviour
         {
             if (b.Index == ind) { b.Amount++; return; }
         }
+
+        switch (ind)
+        {
+            case 1:
+                Text_.text = "+ " + a_health + "health, but +" + a_drain + " passive torch drain";
+                break;
+            case 3:
+                Text_.text = "+ " + c_speed + "movement speed, but -" + c_health + " maximum health";
+                break;
+            case 4:
+                Text_.text = "Landing attacks heals " + d_heal + " health, but each attack costs " + d_damage + " health";
+                break;
+            case 5:
+                Text_.text = "+ " + e_damage + "damage dealt, but -" + e_power + " maximum torch power";
+                break;
+
+            default:
+                Text_.text = "+ " + f_damage + "damage dealt, but -" + f_health + " max health";
+                break;
+        }
+        
+        Anim.SetTrigger(appear);
 
         Buff bu = new Buff(ind, 1);
         CurBuffs.Add(bu);

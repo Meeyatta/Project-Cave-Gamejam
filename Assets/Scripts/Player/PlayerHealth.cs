@@ -46,15 +46,15 @@ public class PlayerHealth : Health
     private void FixedUpdate()
     {
         BuffUpdates();
+
     }
 
     private void Update()
     {
         InfoUpdate();
 
-        if (Input.GetKeyDown("p")) { Death(); }
-
         HpSlider.maxValue = Max_Health;
+        Cur_Health = Mathf.Clamp(Cur_Health, 0, Max_Health);
         HpSlider.minValue = 0;
         HpSlider.value = Cur_Health;
     }
