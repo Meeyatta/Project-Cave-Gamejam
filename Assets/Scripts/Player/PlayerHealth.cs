@@ -2,18 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : Health
 {
     [Header("-Player specific-")]
     public float Base_MaxHealth;
     public Slider HpSlider;
+    public Rigidbody rb;
 
     BuffsManager bm;
     public override void Death()
     {
         Debug.Log("Player has died");
+        StartCoroutine(Die());
     }
+
+    IEnumerator Die()
+    {
+        isDead = true;
+
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+        yield return new WaitForSeconds(3);
+
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+    }
+
     private void Start()
     {
         InfoStart();
@@ -35,6 +51,8 @@ public class PlayerHealth : Health
     private void Update()
     {
         InfoUpdate();
+
+        if (Input.GetKeyDown("p")) { Death(); }
 
         HpSlider.maxValue = Max_Health;
         HpSlider.minValue = 0;

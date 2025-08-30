@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerRotation : MonoBehaviour
 {
     public Vector3 LookDir;
-
+    PlayerHealth ph;
     Camera Cam;
 
     void Tracking()
@@ -23,11 +23,12 @@ public class PlayerRotation : MonoBehaviour
     void Start()
     {
         Cam = Camera.main;
+        ph = GetComponent<PlayerHealth>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Tracking();
+        if (!ph.isDead) Tracking();
     }
 }

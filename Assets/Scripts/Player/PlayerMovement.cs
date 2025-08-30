@@ -141,6 +141,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        if (ph.isDead) return;
+
         Movement();
         StartCoroutine(DashUpdate());
         AnimationControl();
