@@ -21,7 +21,7 @@ public class PersistentNightGate : Health
     private bool playerInRange = false;
     private PlayerAttack playerAttackScript;
     private TorchManager torchManager;
-
+    public BrambleScript bramble;
     void Start()
     {
         InfoStart();
@@ -154,7 +154,8 @@ public class PersistentNightGate : Health
 
         gateRenderer.material.color = Color.yellow;
 
-        ShowMessage("Gate will open tomorrow!");
+        ShowMessage("The bramble gate resists the flame. I should come back tomorrow");
+        bramble.LightUp();
 
         StartCoroutine(BurnEffect());
     }
@@ -196,7 +197,7 @@ public class PersistentNightGate : Health
 
         Debug.Log($"Gate {name} opened!");
 
-        ShowMessage("Gate is open!");
+        ShowMessage("The gate burns");
 
         if (gateCollider != null)
             gateCollider.enabled = false;
@@ -280,7 +281,7 @@ public class PersistentNightGate : Health
 
     static IEnumerator HideMessageAfterDelay()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(6f);
 
         if (messageUI != null)
             messageUI.SetActive(false);

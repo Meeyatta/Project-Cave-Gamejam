@@ -227,6 +227,8 @@ public class CaveSpawner : MonoBehaviour
             {
                 Vector3 groundPos = hit.point + Vector3.up * heightOffset;
 
+                Debug.Log("Checking validity of ground position: " + IsValidSpawnPosition(groundPos, minDistanceFromOthers));
+
                 // Check if position is valid
                 if (IsValidSpawnPosition(groundPos, minDistanceFromOthers))
                 {
@@ -244,21 +246,22 @@ public class CaveSpawner : MonoBehaviour
         if (playerTransform != null)
         {
             float distanceFromPlayer = Vector3.Distance(position, playerTransform.position);
-            if (distanceFromPlayer < minDistanceFromPlayer)
-                return false;
+            if (distanceFromPlayer < minDistanceFromPlayer) 
+                { Debug.Log("Player is too close"); return false; }
+                
         }
 
         // Check distance from other spawned objects
         foreach (Vector3 spawnedPos in spawnedPositions)
         {
             if (Vector3.Distance(position, spawnedPos) < minDistance)
-                return false;
+                { Debug.Log("Other objects too close"); return false; }
         }
 
         // Check for obstacles (walls, other objects)
         Collider[] obstacles = Physics.OverlapSphere(position, 1f, obstacleLayer);
         if (obstacles.Length > 0)
-            return false;
+        { Debug.Log("THere is an obstacle within the sphere"); return false; }
 
         return true;
     }
