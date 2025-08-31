@@ -17,6 +17,8 @@ public class ItemPickup : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" & !WasPicked)
         {
+
+            ItemIndex = Random.Range(1, 2);
             WasPicked = true;
             im.PickUp(ItemIndex);
             Destroy(gameObject);

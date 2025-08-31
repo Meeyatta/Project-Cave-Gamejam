@@ -10,13 +10,19 @@ public class BuffPickup : MonoBehaviour
     BuffsManager bm;
     private void Awake()
     {
-        bm = FindObjectOfType<BuffsManager>();    
+        bm = FindObjectOfType<BuffsManager>();
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player" & !WasPicked)
         {
+            Debug.Log("pICKED UP A BUFF " + BuffIndex);
+
+            BuffIndex = Random.Range(1, 6);
+            while (BuffIndex == 2) { BuffIndex = Random.Range(1, 6); }
+
             WasPicked = true;
             bm.AddBuff(BuffIndex);
             Destroy(gameObject);

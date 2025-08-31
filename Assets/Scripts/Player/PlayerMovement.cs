@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     public float Base_Speed;
-
+    public bool CanMove = true;
     public int Dashes_Max;
     public float Base_Dash_Speed;
     public float Dash_Dur;
@@ -157,11 +157,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (IsDashing)
         {
-            Controller.Move((Dash_Speed * MoveDir * Time.deltaTime) + gravityVector);
+            if (CanMove) Controller.Move((Dash_Speed * MoveDir * Time.deltaTime) + gravityVector);
         }
         else
         {
-            Controller.Move((Speed * MoveDir * Time.deltaTime) + gravityVector);
+            if (CanMove) Controller.Move((Speed * MoveDir * Time.deltaTime) + gravityVector);
         }
 
     }

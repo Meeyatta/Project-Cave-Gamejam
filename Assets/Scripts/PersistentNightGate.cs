@@ -189,15 +189,15 @@ public class PersistentNightGate : Health
         transform.localScale = originalScale;
         gateRenderer.material.color = Color.yellow;
     }
-
+    public bool IsFinal;
     void OpenGate()
     {
+        if (IsFinal) { FindObjectOfType<Ending>().BurntDownFinalGate(); }
         isOpen = true;
         scheduledToOpen = false;
 
-        Debug.Log($"Gate {name} opened!");
-
-        ShowMessage("The gate burns");
+        ShowMessage("The gate burnt out");
+        bramble.gameObject.SetActive(false);
 
         if (gateCollider != null)
             gateCollider.enabled = false;

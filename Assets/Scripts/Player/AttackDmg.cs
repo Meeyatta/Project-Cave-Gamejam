@@ -26,9 +26,9 @@ public class AttackDmg : MonoBehaviour
         Anim.SetLayerWeight(ind, 1);
         foreach (var v in pa.Trigger.CurTargets)
         {
-            if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); damaged.Add(v.Hp); }
+            if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); SoundManager.Instance.PlaySound(Sound.Hurt, 0.2f, v.Hp.transform); damaged.Add(v.Hp); }
 
-            SoundManager.Instance.PlaySound(Sound.Hurt, 0.5f, v.Hp.transform);
+            
         }
     }
 
@@ -36,7 +36,7 @@ public class AttackDmg : MonoBehaviour
     {
         foreach (var v in pa.Trigger.CurTargets)
         {
-            if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); damaged.Add(v.Hp); }
+            if (!damaged.Contains(v.Hp)) { v.Hp.Take_Dmg(pa.Damage); SoundManager.Instance.PlaySound(Sound.Hurt, 0.2f, v.Hp.transform); damaged.Add(v.Hp); }
         }
 
         //4 d landing attacks heals, attacks deal self damage
